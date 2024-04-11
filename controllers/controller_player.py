@@ -27,3 +27,9 @@ class PlayerController:
 
     def find_player_by_chessid(self, chess_id):
         return self.table.search(Query().chess_id == str(chess_id))
+
+    def create_player_list(self, chess_id_list):
+        list_of_players = []
+        for participant in chess_id_list:
+            list_of_players.append(PlayerController.find_player_by_chessid(self, participant))
+        return list_of_players
