@@ -36,20 +36,40 @@ class MainController:
                 if not basic_information:
                     print("Exiting...")
                     continue
+                match = tournament_controller.find_tournament_by_name(basic_information[1])
+                if match:
+                    print("The tournament with this name already exists:")
+                    print(basic_information[1])
+                    continue
                 player_view.print_player_list(player_controller.list_players_from_db())
-                participants_chessids = (tournament_view.input_players_to_add()).split("-")
+                participants_chessids = tournament_view.input_players_to_add()
                 if not participants_chessids:
                     print("Exiting...")
                     continue
-                print(participants_chessids)
-
-
+                participant_list = player_controller.create_player_list(participants_chessids)
+                tournament_controller.create_tournament(*basic_information, participant_list)
+                print("Tournament Created")
             elif choice == '2':
-                print("Tournament2")
+                tournament_view.print_tournament_list(tournament_controller.list_tournaments_from_db())
             elif choice == '3':
-                print("Tournament3")
+                tournament_view.print_tournament_list(tournament_controller.list_tournaments_from_db())
+                tournament_name = tournament_view.ask_for_tournament_name()
             elif choice == '4':
-                print("Tournament4")
+                tournament_view.print_tournament_list(tournament_controller.list_tournaments_from_db())
+                tournament_name = tournament_view.ask_for_tournament_name()
+                match = tournament_controller.find_tournament_by_name(tournament_name)
+                if match:
+                    tournament_view.print_matching_names(match)
+                    if tournament_view.confirm_delete_tournament() == "y":
+                        tournament_controller.remove_tournament_by_name(tournament_name)
+                        print("\nTournament Deleted")
+                    else:
+                        print("Exiting...\n")
+                        continue
+                else:
+                    print("\nNo Tournament matched that name.")
+                    print("Exiting...\n")
+                    continue
             elif choice == '5':
                 print("Exiting...\n")
                 break
@@ -73,6 +93,7 @@ class MainController:
             elif choice == '2':
                 player_view.print_player_list(player_controller.list_players_from_db())
             elif choice == '3':
+                player_view.print_player_list(player_controller.list_players_from_db())
                 chess_id = player_view.ask_for_player_chessid()
                 match = player_view.print_matching_players(player_controller.find_player_by_chessid(chess_id))
                 if match is not None:
