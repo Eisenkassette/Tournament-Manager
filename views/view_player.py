@@ -76,7 +76,7 @@ class PlayerView:
     @staticmethod
     def confirm_delete_player():
         while True:
-            confirmation = input("Delete player(s)? (y/n): ")
+            confirmation = input("Delete player? (y/n): ")
             if confirmation.lower() == "y" or confirmation.lower() == "n":
                 return confirmation
             else:
