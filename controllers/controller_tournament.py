@@ -1,6 +1,7 @@
 # list of rounds here
 from tinydb import TinyDB, Query
 import os
+from datetime import datetime
 from models.model_tournament import TournamentModel
 
 
@@ -26,12 +27,22 @@ class TournamentController:
                           max_round_number: int,
                           description: str,
                           participants: list):
-        tournament = TournamentModel(tournament_name, location, max_round_number, description, "Not started",
-                                     "Never Ended", 1, [], participants)
+        tournament = TournamentModel(tournament_name, location, max_round_number, description, -1,
+                                     -1, 1, [], participants)
         self.table.insert(tournament.to_dict())
         self.tournaments.append(tournament)
 
-    # def start_tournament(self, tournament_name: str):
+    def start_tournament(self, tournament_name: str):
+        current_tournament_doc = self.table.get(Query().tournament_name == str(tournament_name))
+        if current_tournament_doc:
+            current_time = datetime.now().strftime("%d-%m-%Y %H:%M")
+            for tournament in self.tournaments:
+                if tournament.tournament_name == tournament_name:
+                    tournament.start_date = current_time
+                    self.table.update({'start_date': current_time}, Query().tournament_name == tournament_name)
+                    break
+        else:
+            print("Tournament not found!")
 
     def remove_tournament_by_name(self, name: str):
         self.table.remove(Query().tournament_name == str(name))
