@@ -17,16 +17,16 @@ class TournamentView:
         print("\nCreate a Player")
         tournament_name = input("Enter tournament name: ")
         location = input("Enter location: ")
-        max_round_number = input("Enter number of rounds(or leave blank for 4): ")
-        if not max_round_number:
-            max_round_number = 4
+        max_rounds_number = input("Enter number of rounds(or leave blank for 4): ")
+        if not max_rounds_number:
+            max_rounds_number = 4
         description = input("Enter description: ")
         print("\nSummary: ", "\nTournament name: " + tournament_name, "\nLocation: " +
-              location, "\nNumber of rounds: ", max_round_number, "\nDescription: " + description)
+              location, "\nNumber of rounds: ", max_rounds_number, "\nDescription: " + description)
         while True:
             confirmation = input("Tournament information correct (y/n)? : ")
             if confirmation.lower() == "y":
-                return tournament_name, location, max_round_number, description
+                return tournament_name, location, max_rounds_number, description
             elif confirmation.lower() == "n":
                 print("Returning to main menu...")
                 return None
@@ -45,6 +45,7 @@ class TournamentView:
                 print("Tournament name:", tournament.tournament_name)
                 print("location:", tournament.location)
                 print("Description:", tournament.description)
+                print("Start date:", tournament.start_date)
                 print("--------------------")
             return "Not None"
 
