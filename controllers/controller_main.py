@@ -1,14 +1,20 @@
 from views.view_main import ViewMain
 from views.view_player import PlayerView
 from views.view_tournament import TournamentView
+from views.view_rounds import RoundsView
+from views.view_reports import ViewReports
 from controllers.controller_player import PlayerController
 from controllers.controller_tournament import TournamentController
+from controllers.controller_rounds import RoundsController
 
 main_view = ViewMain()
 player_view = PlayerView()
+rounds_view = RoundsView()
+reports_view = ViewReports()
 player_controller = PlayerController()
 tournament_view = TournamentView()
 tournament_controller = TournamentController()
+rounds_controller = RoundsController()
 
 
 class MainController:
@@ -23,6 +29,38 @@ class MainController:
             elif choice == "2":
                 MainController.tournament_section()
             elif choice == "3":
+                MainController.reports_section()
+            elif choice == "4":
+                print("Exiting...\n")
+                break
+
+    @staticmethod
+    def reports_section():
+        while True:
+            reports_view.display_main_menu()
+            choice = reports_view.get_menu_choice()
+            if choice == "1":
+                reports_view.print_player_list(player_controller.list_players_from_db())
+            if choice == "2":
+                tournament_view.print_tournament_list(tournament_controller.list_tournaments_from_db())
+            if choice == "3":
+                while True:
+                    tournament_name = reports_view.ask_tournament_name()
+                    tournament_date = tournament_controller.get_date_using_name(tournament_name)
+                    if tournament_date:
+                        reports_view.print_tournament_results(tournament_name, tournament_date)
+                        break
+                    else:
+                        print("No tournament matched the name")
+            if choice == "4":
+                reports_view.print_participants_list(tournament_controller.find_participants_list_using_name(
+                    reports_view.ask_tournament_name()))
+            if choice == "5":
+                tournament_name = reports_view.ask_tournament_name()
+                reports_view.display_matches_and_rounds(rounds_controller.get_all_matches(tournament_name),
+                                                        tournament_controller.find_participants_list_using_name(
+                                                            tournament_name))
+            elif choice == "6":
                 print("Exiting...\n")
                 break
 
@@ -54,6 +92,12 @@ class MainController:
             elif choice == '3':
                 tournament_view.print_tournament_list(tournament_controller.list_tournaments_from_db())
                 tournament_name = tournament_view.ask_for_tournament_name()
+                match = tournament_controller.find_tournament_by_name(tournament_name)
+                if match:
+                    tournament_controller.set_tournament_start_date(tournament_name)
+                    tournament_controller.launch_tournament(tournament_name)
+                else:
+                    print("No matching tournament found")
             elif choice == '4':
                 tournament_view.print_tournament_list(tournament_controller.list_tournaments_from_db())
                 tournament_name = tournament_view.ask_for_tournament_name()
