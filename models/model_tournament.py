@@ -2,7 +2,7 @@ class TournamentModel:
     def __init__(self,
                  tournament_name: str,
                  location: str,
-                 max_round_number: int,
+                 max_rounds_number: int,
                  description: str,
                  start_date,
                  end_date,
@@ -11,7 +11,7 @@ class TournamentModel:
                  participants: list):
         self.tournament_name = tournament_name
         self.location = location
-        self.max_round_number = max_round_number
+        self.max_rounds_number = max_rounds_number
         self.description = description
         self.start_date = start_date
         self.end_date = end_date
@@ -23,7 +23,7 @@ class TournamentModel:
         return {
             'tournament_name': self.tournament_name,
             'location': self.location,
-            'max_round_number': self.max_round_number,
+            'max_rounds_number': self.max_rounds_number,
             'description': self.description,
             'start_date': self.start_date,
             'end_date': self.end_date,
