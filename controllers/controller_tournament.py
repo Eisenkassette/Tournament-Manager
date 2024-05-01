@@ -94,10 +94,10 @@ class TournamentController:
             controller_rounds.update_round_end_time(tournament_name,
                                                     controller_rounds.get_highest_round_number(tournament_name))
             controller_rounds.update_latest_match_data(tournament_name)
-            if int(controller_rounds.get_highest_round_number(tournament_name)) < max_round_number:
-                controller_rounds.create_next_round(tournament_name)
             if int(controller_rounds.get_highest_round_number(tournament_name)) == max_round_number:
                 break
+            if int(controller_rounds.get_highest_round_number(tournament_name)) < max_round_number:
+                controller_rounds.create_next_round(tournament_name)
 
     def remove_tournament_by_name(self, name: str):
         self.table.remove(Query().tournament_name == str(name))
