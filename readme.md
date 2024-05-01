@@ -1,8 +1,10 @@
 <h2> Gestionnaire de tournoi d'Echecs </h2>
-TournamentManager est un logiciel en ligne de commande pour gerer des tounois d'echecs.
+
+TournamentManager est un logiciel en ligne de commande pour gérer des tournois d'échecs.
+
 <h3> Utilisation </h3>
-Telecharger le dossier.<br>
-Utilisez un terminal pour vous positionner dans le dossier principal, celui-ci contient un fichier nommer requirements.txt et main.py.<br>
+Télécharger le dossier.<br>
+Utilisez un terminal pour vous positionner dans le dossier principal, celui-ci contient un fichier nommé requirements.txt et main.py.<br>
 
 Taper: ```pip install -r requirements.txt``` pour installer les libraries requises.
 
@@ -10,9 +12,21 @@ Taper: ```python3 main.py``` pour lancer le logiciel.
 
 <h3> Stockage d'information </h3>
 
-Le logiciel va cree un un dossier data a la racine de main.py.<br>
-Le dossier data va contenir:
+Le logiciel va crée un dossier data à la racine de main.py.<br>
+Le dossier data va contenir :
 
 - "player.db.json", contenant les informations des joueurs<br>
 - "tournaments.db.json", contenant les informations des tournois<br>
-- un dossier "rounds", contenant des fichiers json unique a chaque tournoi stockant tous les matches.
+- Un dossier "rounds", contenant des fichiers json unique à chaques tournois.
+
+Les données sont mises à jour au fil des opérations et son chargé durant le démarrage.
+
+<h3> Verification Flake8 </h3>
+
+Pour vérifier la conformité du code au règles PEP8, ouvre un terminal, positionner vous dans le dossier contenant main.py.<br>
+Puis entrer les commandes suivantes :
+
+- ```pip install flake8```
+- ```flake8 --exclude=.venv --max-line-length 119 > flake8_rapport```
+
+Le fichier "flake8_rapport" sera mis à jour.
