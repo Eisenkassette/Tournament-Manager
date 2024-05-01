@@ -43,7 +43,7 @@ class ViewReports:
             print("\nNo players")
         else:
             # Sort the player list based on the first name
-            sorted_players = sorted(player_list, key=lambda player: player.first_name)
+            sorted_players = sorted(player_list, key=lambda players: players.first_name)
 
             print("\nPlayers list: ")
             print("--------------------")

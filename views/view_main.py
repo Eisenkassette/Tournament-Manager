@@ -10,4 +10,3 @@ class ViewMain:
     @staticmethod
     def get_menu_choice():
         return input("Enter your choice: ")
-
