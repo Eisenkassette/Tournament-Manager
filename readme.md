@@ -27,6 +27,6 @@ Pour vérifier la conformité du code au règles PEP8, ouvre un terminal, positi
 Puis entrer les commandes suivantes :
 
 - ```pip install flake8```
-- ```flake8 --exclude=.venv --max-line-length 119 > flake8_rapport```
+- ```flake8 --max-line-length 119 > flake8_rapport```
 
 Le fichier "flake8_rapport" sera mis à jour.
