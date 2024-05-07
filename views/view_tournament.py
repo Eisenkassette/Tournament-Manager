@@ -14,7 +14,7 @@ class TournamentView:
 
     @staticmethod
     def input_basic_tournament_info():
-        print("\nCreate a Player")
+        print("\nCreate a Tournament")
         tournament_name = input("Enter tournament name: ")
         location = input("Enter location: ")
         max_rounds_number = input("Enter number of rounds(or leave blank for 4): ")
