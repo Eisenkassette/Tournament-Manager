@@ -142,6 +142,9 @@ class RoundsController:
         table.insert(round_1.to_dict())
 
     def input_match_results(self):
+        """
+        input_match_results gets and updates player score for the loaded matches
+        """
         for match in self.matches:
             player_1_info, player_2_info = match[0], match[1]
             player_1_name = self.get_player_name(player_1_info[0])
