@@ -14,6 +14,12 @@ class RoundsController:
             os.makedirs(self.db_folder)
 
     def load_rounds_from_file(self, tournament_name):
+        """
+        load_rounds_from_file loads into memory all existing matches of a given tournament.
+
+        Parameters:
+        - tournament_name
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
         if not os.path.exists(db_file):
             open(db_file, 'w').close()
@@ -22,25 +28,40 @@ class RoundsController:
             data = json.load(file)
             if "rounds" in data:
                 rounds_data = data["rounds"]
-                round_1_data = rounds_data.get("1", {})  # Assuming you're loading data for round 1
+                round_1_data = rounds_data.get("1", {})
                 if round_1_data:
                     self.participants = round_1_data.get("participants", [])
                     self.matches = round_1_data.get("matches", [])
 
     def get_all_matches(self, tournament_name):
+        """
+        get_all_matches returns a list of all matches of a given tournament.
+
+        Parameters:
+        - tournament_name
+
+        Returns:
+        List of all rounds
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
         all_rounds = []
 
         with open(db_file, 'r') as file:
             data = json.load(file)
             round_data = data["rounds"]
-            for round_info in round_data.values():  # Iterate over the values of the rounds dictionary
-                match_data = round_info.get("matches", [])  # Use .get() to safely access matches
-                all_rounds.extend(match_data)  # Extend the all_rounds list with matches
+            for round_info in round_data.values():
+                match_data = round_info.get("matches", [])
+                all_rounds.extend(match_data)
 
         return all_rounds
 
     def load_latest_round_from_file(self, tournament_name):
+        """
+        load_latest_round_from_file loads the data from the file of a given tournament.
+
+        Parameters:
+        - tournament_name
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
 
         with open(db_file, 'r') as file:
@@ -54,9 +75,25 @@ class RoundsController:
                     self.matches = latest_round_data.get("matches", [])
 
     def print_matches(self):
+        """
+        print_matches prints the currently loaded matches.
+
+        Returns:
+        matches
+        """
         return self.matches
 
     def check_for_match_file(self, tournament_name: str):
+        """
+        check_for_match_file checks if a rounds' file corresponding to a specific tournament exists.
+
+        Parameters:
+        - tournament_name: str
+
+        Returns:
+        "Not Found" if file doesn't exist
+        "File found" if file exists
+        """
         db_path = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
         if not os.path.exists(db_path):
             return "Not Found"
@@ -64,11 +101,25 @@ class RoundsController:
             return "File found"
 
     def delete_round_file(self, tournament_name):
+        """
+        delete_round_file deletes a round's file corresponding to a specific tournament.
+
+        Parameters:
+        - tournament_name: str
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
         if os.path.exists(db_file):
             os.remove(db_file)
 
     def create_round_one(self, tournament_name: str, participants_list: list):
+        """
+        create_round_one generates the first round of the tournament.
+        If the round's file doesn't exist it will create it.
+
+        Parameters:
+        - tournament_name: str
+        - participants_list: list
+        """
         db_path = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
         if not os.path.exists(db_path):
             open(db_path, 'w').close()
@@ -124,6 +175,12 @@ class RoundsController:
                     print("Wrong input. Please input chessid of winner or 'tie'.")
 
     def create_next_round(self, tournament_name):
+        """
+        create_next_round generates a new round for a given tournament.
+
+        Parameters:
+        - tournament_name: str
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
         next_round_number = self.get_highest_round_number(tournament_name) + 1
 
@@ -150,6 +207,16 @@ class RoundsController:
             json.dump(data, file, indent=4)
 
     def load_round_matches(self, tournament_name, round_number):
+        """
+        load_round_matches returns the list of matches of a given round of a given tournament.
+
+        Parameters:
+        - tournament_name
+        - round_number
+
+        Returns:
+        List of matches
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
 
         with open(db_file, 'r') as file:
@@ -162,6 +229,15 @@ class RoundsController:
         return []
 
     def generate_matches_for_round(self, tournament_name):
+        """
+        generate_matches_for_round generates a list of matches for a given tournament.
+
+        Parameters:
+        - tournament_name: str
+
+        Returns:
+        List of matches
+        """
         # Load the data from the latest round
         self.load_latest_round_from_file(tournament_name)
 
@@ -208,12 +284,31 @@ class RoundsController:
         return matches
 
     def get_player_score(self, chess_id):
+        """
+        get_player_score finds a player using his chess_id and returns his score.
+
+        Parameters:
+        - chess_id
+
+        Returns:
+        Player score
+        """
+
         for participant in self.participants:
             if participant["chess_id"] == chess_id:
                 return participant["score"]
-        return 0  # Default score if player not found
+        return 0
 
     def get_highest_round_number(self, tournament_name):
+        """
+        get_highest_round_number finds the highest round number of a given tournament.
+
+        Parameters:
+        - tournament_name
+
+        Returns:
+        Highest round number
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
 
         with open(db_file, 'r') as file:
@@ -225,12 +320,28 @@ class RoundsController:
                     return highest_round_number
 
     def get_player_name(self, chess_id):
+        """
+        get_player_name finds the name of a player matching the chess_id parameter.
+
+        Parameters:
+        - chess_id
+
+        Returns:
+        Player's first name, last name and chess_id
+        """
         for participant in self.participants:
             if participant["chess_id"] == chess_id:
                 return f"{participant['first_name']} {participant['last_name']} ({chess_id})"
         return "Unknown Player"
 
     def update_latest_match_data(self, tournament_name):
+        """
+        update_latest_match_data updates the score of the last existing round of a given tournament using
+        the currently loaded data.
+
+        Parameters:
+        - tournament_name
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
 
         with open(db_file, 'r+') as file:
@@ -249,6 +360,13 @@ class RoundsController:
                     file.truncate()
 
     def update_round_start_time(self, tournament_name, round_number):
+        """
+        update_round_start_time updates start_time of a given tournament's round with current data.
+
+        Parameters:
+        - tournament_name
+        - round_number
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
         start_time = datetime.now().strftime("%d-%m-%Y %H:%M")
 
@@ -262,6 +380,13 @@ class RoundsController:
                     json.dump(data, file, indent=4)  # Write the updated data back to the file
 
     def update_round_end_time(self, tournament_name, round_number):
+        """
+        update_round_end_time updates end_time of a given tournament's round with current data.
+
+        Parameters:
+        - tournament_name
+        - round_number
+        """
         db_file = os.path.join(self.db_folder, f"{tournament_name}.rounds.db.json")
         end_time = datetime.now().strftime("%d-%m-%Y %H:%M")
 
@@ -275,6 +400,13 @@ class RoundsController:
                     json.dump(data, file, indent=4)  # Write the updated data back to the file
 
     def update_score(self, chess_id, score):
+        """
+        update_score updates the score of a given player that is currently loaded.
+
+        Parameters:
+        - chess_id
+        - score
+        """
         for participant in self.participants:
             if participant["chess_id"] == chess_id:
                 participant["score"] += score
