@@ -161,6 +161,9 @@ class TournamentController:
             controller_rounds.load_latest_round_from_file(tournament_name)
             controller_rounds.update_round_start_time(tournament_name,
                                                       controller_rounds.get_highest_round_number(tournament_name))
+            print("--------------------")
+            print("Round", controller_rounds.get_highest_round_number(tournament_name))
+            print(controller_rounds.return_latest_matches(tournament_name))
             controller_rounds.input_match_results()
             controller_rounds.update_round_end_time(tournament_name,
                                                     controller_rounds.get_highest_round_number(tournament_name))
@@ -172,7 +175,7 @@ class TournamentController:
 
     def remove_tournament_by_name(self, name: str):
         """
-        remove_tournament_by_name deletes a tournament based on it's name.
+        remove_tournament_by_name deletes a tournament based on its name.
 
         Parameters:
         - name: str
