@@ -285,27 +285,27 @@ class RoundsController:
 
                 # Add opponent_id to the set of opponents for player_id
                 latest_round_opponents[player_id].add(opponent_id)
-
         # Generate matches based on the sorted list of participants
         matches = []
-        for i in range(0, len(sorted_participants), 2):
+        for i in range(0, len(sorted_participants), 1):
             player_1_id = sorted_participants[i]['chess_id']
-            player_2_id = sorted_participants[i + 1]['chess_id']
-
-            # Check if player 1 has played against player 2 in the latest round
-            if player_2_id in latest_round_opponents.get(player_1_id, []):
-                # If so, find a new opponent for player 2
-                for j in range(i + 2, len(sorted_participants)):
+            is_player_1_id_present = any(player_1_id == match[0][0] or player_1_id == match[1][0] for match in matches)
+            if is_player_1_id_present is False:
+                j = 0
+                while j < len(sorted_participants):
                     player_2_id = sorted_participants[j]['chess_id']
-                    if player_2_id not in latest_round_opponents.get(player_1_id, []):
-                        break
-
-            # Add the match to the list of matches
-            matches.append([
-                [player_1_id, sorted_participants[i]['score']],
-                [player_2_id, sorted_participants[i + 1]['score']]
-            ])
-
+                    if (player_1_id != player_2_id) and \
+                            (player_2_id not in latest_round_opponents.get(player_1_id, [])) and \
+                            (player_1_id not in latest_round_opponents.get(player_2_id, [])):
+                        is_player_2_id_present = any(
+                            player_2_id == match[0][0] or player_2_id == match[1][0] for match in matches)
+                        if is_player_2_id_present is False:
+                            matches.append([
+                                [player_1_id, sorted_participants[i]['score']],
+                                [player_2_id, sorted_participants[j]['score']]
+                            ])
+                            break
+                    j += 1
         return matches
 
     def get_player_score(self, chess_id):
