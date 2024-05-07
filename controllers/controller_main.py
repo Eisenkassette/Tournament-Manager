@@ -1,7 +1,6 @@
 from views.view_main import ViewMain
 from views.view_player import PlayerView
 from views.view_tournament import TournamentView
-from views.view_rounds import RoundsView
 from views.view_reports import ViewReports
 from controllers.controller_player import PlayerController
 from controllers.controller_tournament import TournamentController
@@ -9,7 +8,6 @@ from controllers.controller_rounds import RoundsController
 
 main_view = ViewMain()
 player_view = PlayerView()
-rounds_view = RoundsView()
 reports_view = ViewReports()
 player_controller = PlayerController()
 tournament_view = TournamentView()
