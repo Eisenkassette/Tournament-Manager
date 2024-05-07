@@ -49,7 +49,7 @@ class MainController:
                         reports_view.print_tournament_results(tournament_name, tournament_date)
                         break
                     else:
-                        print("No tournament matched the name")
+                        print("\nNo tournament matched the name")
             if choice == "4":
                 reports_view.print_participants_list(tournament_controller.find_participants_list_using_name(
                     reports_view.ask_tournament_name()))
@@ -74,7 +74,7 @@ class MainController:
                     continue
                 match = tournament_controller.find_tournament_by_name(basic_information[1])
                 if match:
-                    print("The tournament with this name already exists:")
+                    print("\nThe tournament with this name already exists:")
                     print(basic_information[1])
                     continue
                 player_view.print_player_list(player_controller.list_players_from_db())
@@ -84,7 +84,7 @@ class MainController:
                     continue
                 participant_list = player_controller.create_player_list(participants_chessids)
                 tournament_controller.create_tournament(*basic_information, participant_list)
-                print("Tournament Created")
+                print("\nTournament Created")
             elif choice == '2':
                 tournament_view.print_tournament_list(tournament_controller.list_tournaments_from_db())
             elif choice == '3':
@@ -95,7 +95,7 @@ class MainController:
                     tournament_controller.set_tournament_start_date(tournament_name)
                     tournament_controller.launch_tournament(tournament_name)
                 else:
-                    print("No matching tournament found")
+                    print("\nNo matching tournament found")
             elif choice == '4':
                 tournament_view.print_tournament_list(tournament_controller.list_tournaments_from_db())
                 tournament_name = tournament_view.ask_for_tournament_name()
