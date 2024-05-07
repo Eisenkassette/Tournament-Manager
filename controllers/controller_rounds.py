@@ -209,6 +209,28 @@ class RoundsController:
         with open(db_file, 'w') as file:
             json.dump(data, file, indent=4)
 
+    def return_latest_matches(self, tournament_name):
+        """
+        return_latest_matches returns the list of current matches of a given tournament.
+
+        Parameters:
+        - tournament_name
+
+        Returns:
+        List of matches
+        """
+        matches = self.load_round_matches(tournament_name, self.get_highest_round_number(tournament_name))
+        beautiful_matches = []
+        for match in matches:
+            player_1_id, player_1_score = match[0][0], match[0][1]
+            player_2_id, player_2_score = match[1][0], match[1][1]
+
+            # Format the match information
+            formatted_match = f"{player_1_id} - score: {player_1_score} vs {player_2_id} - score: {player_2_score}"
+            beautiful_matches.append(formatted_match)
+
+        return '\n'.join(beautiful_matches)
+
     def load_round_matches(self, tournament_name, round_number):
         """
         load_round_matches returns the list of matches of a given round of a given tournament.
